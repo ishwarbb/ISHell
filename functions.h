@@ -51,5 +51,7 @@ void controlZ(int signum) ;
 void controlC(int signum) ;
 void bindSignals();
 void sig(char* command);
+void prompt(char* path);
+void promptInit();
 
 #endif

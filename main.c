@@ -28,36 +28,31 @@ int main()
     dup2(0, STDIN_FILENO);
     dup2(1, STDOUT_FILENO);
 
+    char buff[MY_LEN];
+    char *ret = getcwd(buff, MY_LEN);
+    strcpy(HomeDirectory, buff);
+
     errno = 0;
     if (uname(&unameBuffer) < 0)
     {
         perror("uname");
         exit(EXIT_FAILURE);
     }
-    printf("Welcome to my shell\n");
+    
+    promptInit();
 
-    char buff[MY_LEN];
-    char *ret = getcwd(buff, MY_LEN);
-    strcpy(HomeDirectory, buff);
+    char path[MY_LEN];
+    strcpy(path, HomeDirectory);
 
-    char *username = getpwuid(getuid())->pw_name;
-
-    printf("\033[1;36m<%s@%s:%s\033[0m\033[1;33m%s>\033[0m $ ", username, unameBuffer.sysname, "", "~");
-
-    fflush(stdout);
-
-    // createHistory();
     for (int i = 0; i < MY_LEN; i++)
     {
         bgp[i] = (char *)malloc(MY_LEN * sizeof(char));
     }
 
-    char path[MY_LEN];
-    strcpy(path, HomeDirectory);
+    prompt(path);
     while (1)
     {
         char command[MY_LEN];
-        // scanf("%[^\n]%*c", command);
         char *inputstatus = fgets(command, MY_LEN, stdin);
         if (inputstatus == NULL)
         {
@@ -145,8 +140,9 @@ int main()
             }
         }
 
-        printf("\033[1;36m<%s@%s:%s\033[0m\033[1;33m%s%s>\033[0m $ ", username, unameBuffer.sysname, "", Tildify(path), extension);
-        fflush(stdout);
+        // printf("\033[1;36m<%s@%s:%s\033[0m\033[1;33m%s%s>\033[0m $ ", username, unameBuffer.sysname, "", Tildify(path), extension);
+        // fflush(stdout);
+        prompt(path);
 
         strcpy(extension, "");
     }
