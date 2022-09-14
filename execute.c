@@ -72,6 +72,14 @@ char *executeCommand(char *command, char *path)
     {
         sig(temp);
     }
+    else if(!strcmp(cmd, "fg"))
+    {
+        fg(temp);
+    }
+    else if(!strcmp(cmd, "bg"))
+    {
+        bg(temp);
+    }
     else if (!strcmp(cmd, ""))
     {
         return NULL;

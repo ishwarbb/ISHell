@@ -41,7 +41,7 @@ void sig(char* command)
     {
         if(args == 0)
         {
-            jobNo = atoi(token);
+            jobNo = atoi(token) - 1;
             if(debug) perror("jobNo arguement\n");
             args++;
         }
@@ -66,6 +66,10 @@ void sig(char* command)
         return;
     }
 
+    if(jobNo >= bgpno)
+    {
+        fprintf(stderr,"No such job exists \n");
+    }
     kill(bgpid[jobNo],sigNo);
 
 }

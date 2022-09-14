@@ -41,11 +41,11 @@ void jobs(char* command)
     {
         if(exists[i]) 
         {
-            printf("[%d] Running %s [%d]\n",i,bgp[i],bgpid[i]);
+            printf("[%d] Running %s [%d]\n",i + 1,bgp[i],bgpid[i]);
         }
         else
         {
-            printf("[%d] Stopped %s [%d]\n",i,bgp[i],bgpid[i]);
+            printf("[%d] Stopped %s [%d]\n",i + 1,bgp[i],bgpid[i]);
         }
     }
 
