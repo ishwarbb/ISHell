@@ -53,5 +53,13 @@ void bindSignals();
 void sig(char* command);
 void prompt(char* path);
 void promptInit();
+char **pipeLine(char *command, char* path );
+void fg(char* command);
+void bg(char* command);
+void die(const char* s);
+void disableRawMode();
+void enableRawMode();
+char* autocomplete(char *command, char* currpath);
+char* get_line();
 
 #endif

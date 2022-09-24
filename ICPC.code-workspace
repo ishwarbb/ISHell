@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../ICPC"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"headers.h": "c",
+			"assert.h": "c"
+		}
+	}
+}

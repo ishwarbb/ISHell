@@ -77,12 +77,12 @@ char *Dotify(char *path)
         return path;
     }
 
-    if (path[strlen(HomeDirectory)] != '\0' && path[strlen(HomeDirectory)] != '/')
-    {
-        if (debug)
-            printf("No need to dotify\n");
-        return path;
-    }
+    // if (path[strlen(HomeDirectory)] != '\0')
+    // {
+        // if (debug)
+            // printf("No need to dotify\n");
+        // return path;
+    // }
 
     char *newpath = (char *)malloc(MY_LEN * sizeof(char));
     strcpy(newpath, ".");
@@ -97,6 +97,10 @@ char *Dotify(char *path)
     strcat(newpath, extra);
     if (debug)
         printf("newdotpath = %s\n", newpath);
+
+    strcpy(path,newpath);
+
+    if(debug) printf("Dotify returning %s \n", newpath);
 
     return newpath;
 }

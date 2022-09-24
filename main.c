@@ -50,11 +50,13 @@ int main()
     }
 
     prompt(path);
+
     while (1)
     {
-        char command[MY_LEN];
-        char *inputstatus = fgets(command, MY_LEN, stdin);
-        if (inputstatus == NULL)
+        // char *inputstatus = fgets(command, MY_LEN, stdin);
+        char* command = get_line();
+        if(debug) printf("get_line returned %s\n",command);
+        if (command == NULL)
         {
             printf("\nEOF reached in input Stream. I QUIT!\n");
             return 0;
@@ -89,22 +91,8 @@ int main()
 
         for (int k = 0; k < totalCommands; k++)
         {
-            char **x = AmpersandHandler(Commands[k]);
-            if (debug)
-                printf("a1\n");
-            for (int i = 0;; i++)
-            {
-                if (x[i] == NULL)
-                    break;
-                if (debug)
-                    printf("ai = %d\n", i);
-                if (debug)
-                    printf("bg ps in main are %s\n", x[i]);
-                executeCommand(x[i], DeTildify(path));
-            }
-            if (debug)
-                printf("uwu\n");
-            // executeCommand(Commands[k], DeTildify(path));
+            char** y = pipeLine(Commands[k],path);
+
         }
 
         LookforBG();

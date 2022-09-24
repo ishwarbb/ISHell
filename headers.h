@@ -17,6 +17,10 @@
 #include <time.h>
 #include <assert.h>
 #include <signal.h>
+#include <termios.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <ctype.h>
 
 #define MY_LEN 10000
 #define debug 0
