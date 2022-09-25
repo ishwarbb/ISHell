@@ -69,16 +69,16 @@ void foregroundProcess(char *path, char *arguements[], int argc)
         } while (!WIFEXITED(wstatus) && !WIFSIGNALED(wstatus));
 
 
-                strcpy(bgp[bgpno], arguements[0]);
+                strcpy(fgp[fgpno], arguements[0]);
                 if (debug)
-                    printf("bgp[%d] = %s\n", bgpno, bgp[bgpno]);
-                bgpid[bgpno] = pid;
+                    printf("fgp[%d] = %s\n", fgpno, fgp[fgpno]);
+                fgpid[fgpno] = pid;
                 if (debug)
-                    printf("bgpid[%d] = %d\n", bgpno, bgpid[bgpno]);
-                exists[bgpno] = 0;
+                    printf("fgpid[%d] = %d\n", fgpno, fgpid[fgpno]);
+                fexists[fgpno] = 1;
                 if (debug)
-                    printf("exists[%d] = %d\n", bgpno, exists[bgpno]);
-                bgpno++;
+                    printf("fexists[%d] = %d\n", fgpno, fexists[fgpno]);
+                fgpno++;
 
     }
     return;
@@ -133,9 +133,9 @@ void backgroundProcess(char *path, char *arguements[], int argc)
         bgpid[bgpno] = pid;
         if (debug)
             printf("bgpid[%d] = %d\n", bgpno, bgpid[bgpno]);
-        exists[bgpno] = 1;
+        bexists[bgpno] = 1;
         if (debug)
-            printf("exists[%d] = %d\n", bgpno, exists[bgpno]);
+            printf("bexists[%d] = %d\n", bgpno, bexists[bgpno]);
         bgpno++;
 
         printf("[%d] %d\n", bgpno, pid);
@@ -197,8 +197,8 @@ int LookforBG()
     int retval = 0;
     for (int i = 0; i < bgpno; i++)
     {
-        // printf("%s %d %d\n",bgp[i],bgpid[i],exists[i]);
-        if (exists[i])
+        // printf("%s %d %d\n",bgp[i],bgpid[i],bexists[i]);
+        if (bexists[i])
         {
             retval = 1;
             char exit_status[MY_LEN] = "";
@@ -249,7 +249,7 @@ int LookforBG()
                 } while (!WIFEXITED(wstatus) && !WIFSIGNALED(wstatus));
 
                 fprintf(stderr,"[%d]   Done--------%s [with pid = %d] was exceuted in background and %s\n", i+1, bgp[i], bgpid[i], exit_status);
-                exists[i] = 0;
+                bexists[i] = 0;
             }
         }
     }
@@ -261,8 +261,8 @@ void KillAllBG()
 {
     for (int i = 0; i < bgpno; i++)
     {
-        // printf("%s %d %d\n",bgp[i],bgpid[i],exists[i]);
-        if (exists[i])
+        // printf("%s %d %d\n",bgp[i],bgpid[i],bexists[i]);
+        if (bexists[i])
         {
             kill(bgpid[i], SIGKILL);
             printf("Killed %s [with pid = %d] \n", bgp[i], bgpid[i]);

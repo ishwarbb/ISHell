@@ -70,6 +70,6 @@ void sig(char* command)
     {
         fprintf(stderr,"No such job exists \n");
     }
-    kill(bgpid[jobNo],sigNo);
 
+    kill(bgpid[jobNo],sigNo);
 }

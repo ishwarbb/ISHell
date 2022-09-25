@@ -7,6 +7,7 @@ void init()
     strcpy(extension,"");
     QUIT = 0;
     bgpno = 0;
+    fgpno = 0;
     initSTDIN = 0;
     initSTDOUT = 1;
     fd1 = -1;
