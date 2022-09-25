@@ -51,12 +51,14 @@ int main()
     for (int i = 0; i < MY_LEN; i++)
     {
         bgp[i] = (char *)malloc(MY_LEN * sizeof(char));
+        fgp[i] = (char *)malloc(MY_LEN * sizeof(char)); 
     }
 
     prompt(path);
 
     while (1)
     {
+        // char command[MY_LEN];
         // char *inputstatus = fgets(command, MY_LEN, stdin);
         char* command = get_line();
         if(debug) printf("get_line returned %s\n",command);

@@ -41,47 +41,55 @@ char *get_line()
     }
 
     enableRawMode();
-    while (read(0, &c, 1) == 1)
+    while(1)
     {
         // if(debug) printf("get_line c = %c",c);
-        if (iscntrl(c))
+        if(read(0, &c, 1) == 1)
         {
-            if (c == 10)
+            if (iscntrl(c))
             {
-                printf("\n");
-                if (debug)
-                    printf("enter detected\n");
-                break;
-            }
-            else if (c == 127)
-            {
-                if (retval[ri - 1] == 9)
+                if (c == 10)
                 {
-                    for (int i = 0; i < 7; i++)
-                    {
-                        printf("\b");
-                    }
+                    printf("\n");
+                    if (debug)
+                        printf("enter detected\n");
+                    break;
                 }
-                retval[--ri] = '\0';
-                printf("\b \b");
-                fflush(stdout);
-            }
-            else if (c == 9)
-            {
-                autocomplete(retval, currpath);
+                else if (c == 127)
+                {
+                    if (retval[ri - 1] == 9)
+                    {
+                        for (int i = 0; i < 7; i++)
+                        {
+                            printf("\b");
+                        }
+                    }
+                    retval[--ri] = '\0';
+                    printf("\b \b");
+                    fflush(stdout);
+                }
+                else if (c == 9)
+                {
+                    autocomplete(retval, currpath);
+                }
+                else
+                {
+                    printf("%c", c);
+                    fflush(stdout);
+                }
             }
             else
             {
+                retval[ri] = c;
+                ri++;
                 printf("%c", c);
                 fflush(stdout);
             }
         }
         else
         {
-            retval[ri] = c;
-            ri++;
-            printf("%c", c);
-            fflush(stdout);
+            disableRawMode();
+            return NULL;
         }
     }
     disableRawMode();

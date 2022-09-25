@@ -28,6 +28,7 @@ void jobs(char *command)
         else
         {
             fprintf(stderr, "Too many arguements for jobs\n");
+            return;
         }
     }
 

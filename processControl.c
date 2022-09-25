@@ -28,57 +28,80 @@ void foregroundProcess(char *path, char *arguements[], int argc)
             perror("Foreground Process error ");
             exit(1);
         }
-
-        exit(1);
         return ;
     }
     else
     {
+        if(debug) printf("foreground parent\n");
         int wstatus;
-        do
+        // do
+        // {
+        //     if(debug) printf("parent waiting\n");
+        //     int w = waitpid(pid, &wstatus, WUNTRACED );
+        //     if(debug) printf("parent still waiting\n");
+        //     if (w == -1)
+        //     {
+        //         perror("waitpid");
+        //         exit(EXIT_FAILURE);
+        //     }
+        //     if (debug)
+        //     {
+        //         if (WIFEXITED(wstatus))
+        //         {
+        //             if (pdebug)
+        //                 printf("exited, status=%d\n", WEXITSTATUS(wstatus));
+        //         }
+        //         else if (WIFSIGNALED(wstatus))
+        //         {
+        //             if (pdebug)
+        //                 printf("killed by signal %d\n", WTERMSIG(wstatus));
+        //         }
+        //         else if (WIFSTOPPED(wstatus))
+        //         {
+        //             if (pdebug)
+        //                 printf("stopped by signal %d\n", WSTOPSIG(wstatus));
+        //         }
+        //         else if (WIFCONTINUED(wstatus))
+        //         {
+        //             if (pdebug)
+        //                 printf("continued\n");
+        //         }
+        //     }
+        // } while (!WIFEXITED(wstatus) && !WIFSIGNALED(wstatus));
+
+        if(waitpid(pid, &wstatus, WUNTRACED) > 0)
         {
-            int w = waitpid(pid, &wstatus, WUNTRACED | WCONTINUED);
-            if (w == -1)
+            if(WIFSTOPPED(wstatus))
             {
-                perror("waitpid");
-                exit(EXIT_FAILURE);
+
+                if(debug) printf("parent has waited\n");
+
+                        strcpy(fgp[fgpno], arguements[0]);
+                        if (debug)
+                            printf("fgp[%d] = %s\n", fgpno, fgp[fgpno]);
+                        fgpid[fgpno] = pid;
+                        if (debug)
+                            printf("fgpid[%d] = %d\n", fgpno, fgpid[fgpno]);
+                        fexists[fgpno] = 1;
+                        if (debug)
+                            printf("fexists[%d] = %d\n", fgpno, fexists[fgpno]);
+                        fgpno++;
             }
-            if (debug)
-            {
-                if (WIFEXITED(wstatus))
-                {
-                    if (pdebug)
-                        printf("exited, status=%d\n", WEXITSTATUS(wstatus));
-                }
-                else if (WIFSIGNALED(wstatus))
-                {
-                    if (pdebug)
-                        printf("killed by signal %d\n", WTERMSIG(wstatus));
-                }
-                else if (WIFSTOPPED(wstatus))
-                {
-                    if (pdebug)
-                        printf("stopped by signal %d\n", WSTOPSIG(wstatus));
-                }
-                else if (WIFCONTINUED(wstatus))
-                {
-                    if (pdebug)
-                        printf("continued\n");
-                }
-            }
-        } while (!WIFEXITED(wstatus) && !WIFSIGNALED(wstatus));
+        }
 
 
-                strcpy(fgp[fgpno], arguements[0]);
-                if (debug)
-                    printf("fgp[%d] = %s\n", fgpno, fgp[fgpno]);
-                fgpid[fgpno] = pid;
-                if (debug)
-                    printf("fgpid[%d] = %d\n", fgpno, fgpid[fgpno]);
-                fexists[fgpno] = 1;
-                if (debug)
-                    printf("fexists[%d] = %d\n", fgpno, fexists[fgpno]);
-                fgpno++;
+        // if(debug) printf("parent has waited\n");
+
+        //         strcpy(fgp[fgpno], arguements[0]);
+        //         if (debug)
+        //             printf("fgp[%d] = %s\n", fgpno, fgp[fgpno]);
+        //         fgpid[fgpno] = pid;
+        //         if (debug)
+        //             printf("fgpid[%d] = %d\n", fgpno, fgpid[fgpno]);
+        //         fexists[fgpno] = 1;
+        //         if (debug)
+        //             printf("fexists[%d] = %d\n", fgpno, fexists[fgpno]);
+        //         fgpno++;
 
     }
     return;
